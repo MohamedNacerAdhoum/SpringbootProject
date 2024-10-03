@@ -22,5 +22,8 @@ public class Tache implements Serializable {
     @Column(name = "typeTache")
     private TypeTache typeTache;
     @ManyToOne
-    Etudiant etudiant;
+    Etudiant etudiants;
+    @OneToOne(mappedBy="tache")
+    private Etudiant etudiant;
+
 }

@@ -23,9 +23,14 @@ public class Etudiant implements Serializable {
     private String ecole;
     @Column(name="dateNaissance")
     private Date edateNaissancecole;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "etudiant")
-    private Set<Tache> tacheSet;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "typeEtudiant")
+    private TypeEtudiant typeEtudiant;
+    @OneToMany(mappedBy = "etudiants")
+    private Set<Tache> taches;
+    @ManyToMany
     private Set<Reservation> reservations;
+    @OneToOne
+    private Tache tache;
 
 }
