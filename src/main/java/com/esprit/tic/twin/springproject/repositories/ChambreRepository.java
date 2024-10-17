@@ -13,8 +13,8 @@ public interface ChambreRepository extends JpaRepository<Chambre, Long> {
     //Keyword
 
     List<Chambre> findByBlocNomBlocAndTypeC(String nomBloc, String type);
-    List<Chambre> findByReservationsestValide(Boolean status);
-    List<Chambre> findByBlocNomBlocAndCapaciteBlocGreaterThan(String nomBloc, long capacite);
+    List<Chambre> findByReservationsEstValide(Boolean status);
+    List<Chambre> findByBlocNomBlocAndBlocCapaciteBlocGreaterThan(String nomBloc, long capacite);
 
     //JPQL
 

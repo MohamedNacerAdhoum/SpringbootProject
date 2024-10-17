@@ -1,13 +1,10 @@
 package com.esprit.tic.twin.springproject.services;
 
 import com.esprit.tic.twin.springproject.entities.Universite;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public interface IUniversiteService {
-    List<Universite> retrieveAllUniversites();
-    Universite addUniversite(Universite f);
-    Universite updateUniversite(Universite f);
-    Universite retrieveUniversite(Long idUniversite);
-    void removeUniversite(Long idUniversite);
 }
