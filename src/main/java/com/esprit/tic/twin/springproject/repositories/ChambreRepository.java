@@ -15,7 +15,6 @@ public interface ChambreRepository extends JpaRepository<Chambre, Long> {
     List<Chambre> findByBlocNomBlocAndTypeC(String nomBloc, String type);
     List<Chambre> findByReservationsEstValide(Boolean status);
     List<Chambre> findByBlocNomBlocAndBlocCapaciteBlocGreaterThan(String nomBloc, long capacite);
-
     //JPQL
 
     @Query("SELECT e FROM Chambre e WHERE e.bloc.nomBloc=:nomBloc AND e.typeC=:type")
