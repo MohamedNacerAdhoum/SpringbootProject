@@ -1,6 +1,7 @@
 package com.esprit.tic.twin.springproject.services;
 
 import com.esprit.tic.twin.springproject.entities.Chambre;
+import com.esprit.tic.twin.springproject.entities.TypeChambre;
 import com.esprit.tic.twin.springproject.repositories.ChambreRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +33,29 @@ public class ChambreService implements IChambreService{
     @Override
     public void removeChambre(Long idChambre) {
         chambreRepository.deleteById(idChambre);
+    }
+    @Override
+    public List<Chambre> findChambreByNomBlocAndTypeCKeyword(String nom, String type) {
+        return chambreRepository.findByBlocNomBlocAndTypeC(nom,TypeChambre.valueOf(type));
+    }
+    @Override
+    public List<Chambre> findChambreByNomBlocAndTypeCJPQL(String nom, String type) {
+        return chambreRepository.retrieveChambreDoubleByBloc(nom,TypeChambre.valueOf(type));
+    }
+    @Override
+    public List<Chambre> findChambreByReservationStatusKeyword(String status) {
+        return chambreRepository.findByReservationsEstValide(Boolean.valueOf(status));
+    }
+    @Override
+    public List<Chambre> findChambreByReservationStatusJPQL(String status) {
+        return chambreRepository.retrieveChambreByReservation(Boolean.valueOf(status));
+    }
+    @Override
+    public List<Chambre> findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanKeyword(String nom, long capacite) {
+        return chambreRepository.findByBlocNomBlocAndBlocCapaciteBlocGreaterThan(nom, capacite);
+    }
+    @Override
+    public List<Chambre> findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanJPQL(String nom, long capacite) {
+        return chambreRepository.retrieveChambreDoubleByBlocAndCapacite(nom,capacite);
     }
 }

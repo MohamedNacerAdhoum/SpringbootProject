@@ -11,7 +11,8 @@ public interface IBlocService {
     Bloc retrieveBloc(Long idBloc);
     void removeBloc(Long idBloc);
 
-    // JPQL keyword
+    // JPQL Keyword
+
     List<Bloc> findBlocsByUniversityName(String nom);
     List<Bloc> retrieveBlocByUniversity(String nom);
 }

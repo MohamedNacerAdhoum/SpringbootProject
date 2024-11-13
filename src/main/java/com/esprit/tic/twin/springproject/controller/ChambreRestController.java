@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/chambre")
 public class ChambreRestController {
+
     IChambreService chambreService;
 
     // http://localhost:8090/projet/chambre/retrieve-all-chambres
@@ -33,4 +34,53 @@ public class ChambreRestController {
     public Chambre addChambre(@RequestBody Chambre e) {
         return chambreService.addChambre(e);
     }
+
+    // http://localhost:8090/projet/chambre/remove-chambre
+    @DeleteMapping("/remove-chambre/{chambre-id}")
+    public void removeChambre(@PathVariable("chambre-id") Long chambreId) {
+        chambreService.removeChambre(chambreId);
+    }
+
+    // http://localhost:8090/projet/chambre/update-chambre
+    @PutMapping("/update-chambre")
+    public Chambre updatechambre(@RequestBody Chambre e) {
+        return chambreService.updateChambre(e);
+    }
+
+    // http://localhost:8090/projet/chambre/find-chambre-keyword
+    @GetMapping("/find-chambre-keyword")
+    public List<Chambre> findChambresByBlocAndTypeKeyword(@RequestParam String blocName, @RequestParam String type) {
+        return chambreService.findChambreByNomBlocAndTypeCKeyword(blocName, type);
+    }
+
+    // http://localhost:8090/projet/chambre/find-chambre-jpql
+    @GetMapping("/find-chambre-jpql")
+    public List<Chambre> retrieveChambreByBlocAndTypeJPQL(@RequestParam String blocName, @RequestParam String type) {
+        return chambreService.findChambreByNomBlocAndTypeCJPQL(blocName, type);
+    }
+
+    // http://localhost:8090/projet/chambre/find-chambre-keyword2
+    @GetMapping("/find-reservation-keyword/{status}")
+    public List<Chambre> retrieveChambreByReservationStatusKeyword(@PathVariable("status") String status) {
+        return chambreService.findChambreByReservationStatusKeyword(status);
+    }
+
+    // http://localhost:8090/projet/chambre/find-chambre-jpql2
+    @GetMapping("/find-reservation-jpql/{status}")
+    public List<Chambre> retrieveChambreByReservationStatusJPQL(@PathVariable("status") String status) {
+        return chambreService.findChambreByReservationStatusJPQL(status);
+    }
+
+    // http://localhost:8090/projet/chambre/find-bloc-keyword
+    @GetMapping("/find-bloc-keyword")
+    public List<Chambre> retrieveChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanKeyword(@RequestParam String blocName, @RequestParam long capacite) {
+        return chambreService.findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanKeyword(blocName, capacite);
+    }
+
+    // http://localhost:8090/projet/chambre/find-bloc-jpql
+    @GetMapping("/find-bloc-jpql")
+    public List<Chambre> retrieveChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanJPQL(@RequestParam String blocName, @RequestParam long capacite) {
+        return chambreService.findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanJPQL(blocName, capacite);
+    }
+
 }
