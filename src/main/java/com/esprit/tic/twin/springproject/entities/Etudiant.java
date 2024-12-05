@@ -1,10 +1,8 @@
 package com.esprit.tic.twin.springproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table( name = "Etudiant")
@@ -31,14 +30,15 @@ public class Etudiant implements Serializable {
     private String ecole;
     @Column(name="dateNaissance")
     private Date edateNaissancecole;
+    @Column(name="montantInscription ",nullable = false)
+    private float montantInscription = 500;
     @Enumerated(EnumType.STRING)
     @Column(name = "typeEtudiant")
     private TypeEtudiant typeEtudiant;
-    @OneToMany(mappedBy = "etudiants")
+    @OneToMany(mappedBy = "etudiant", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Tache> taches;
     @ManyToMany
+    @JsonIgnore
     private Set<Reservation> reservations;
-    @OneToOne
-    private Tache tache;
-
 }

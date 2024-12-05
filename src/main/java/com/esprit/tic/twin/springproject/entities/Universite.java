@@ -1,5 +1,6 @@
 package com.esprit.tic.twin.springproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Universite implements Serializable {
     private String nomUniversite;
     @Column(name="adresse")
     private String adresse;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Foyer foyer;
 }

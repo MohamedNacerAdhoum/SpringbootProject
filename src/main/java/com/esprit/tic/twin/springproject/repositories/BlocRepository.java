@@ -12,4 +12,5 @@ public interface BlocRepository extends JpaRepository <Bloc, Long> {
     @Query("SELECT e FROM Bloc e JOIN e.foyer f WHERE f.universite.nomUniversite=:nomUniversite")
     List<Bloc> retrieveBlocByUniversite(@Param("nomUniversite") String nomUniversite);
 
+    Bloc findByNomBloc(String nomBloc);
 }

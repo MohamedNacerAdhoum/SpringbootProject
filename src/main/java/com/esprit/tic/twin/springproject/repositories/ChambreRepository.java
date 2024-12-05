@@ -1,6 +1,5 @@
 package com.esprit.tic.twin.springproject.repositories;
 
-import com.esprit.tic.twin.springproject.entities.Bloc;
 import com.esprit.tic.twin.springproject.entities.Chambre;
 import com.esprit.tic.twin.springproject.entities.TypeChambre;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,12 +15,23 @@ public interface ChambreRepository extends JpaRepository<Chambre, Long> {
     List<Chambre> findByBlocNomBlocAndTypeC(String nomBloc, TypeChambre type);
     List<Chambre> findByReservationsEstValide(Boolean status);
     List<Chambre> findByBlocNomBlocAndBlocCapaciteBlocGreaterThan(String nomBloc, long capacite);
+    List<Chambre> findByBlocNomBloc(String nomBloc);
+    long countChambreByTypeCAndBlocIdBloc(TypeChambre type, long idBloc);
+
     //JPQL
 
     @Query("SELECT e FROM Chambre e WHERE e.bloc.nomBloc=:nomBloc AND e.typeC=:type")
     List<Chambre> retrieveChambreDoubleByBloc(@Param("nomBloc") String nomBloc, @Param("type") TypeChambre type);
+
     @Query("SELECT e FROM Chambre e JOIN e.reservations f WHERE f.estValide=:status")
     List<Chambre> retrieveChambreByReservation(@Param("status")Boolean status);
+
     @Query("SELECT e FROM Chambre e WHERE e.bloc.nomBloc=:nomBloc AND e.bloc.capaciteBloc>:capacite")
     List<Chambre> retrieveChambreDoubleByBlocAndCapacite(@Param("nomBloc") String nomBloc, @Param("capacite") long capacite);
+
+    List<Chambre> findAllByNumeroChambreIn(List<Long> numChambre);
+
+    @Query("SELECT e FROM Chambre e WHERE e.typeC=:type AND e.bloc.idBloc=:idBloc")
+    long retrieveCountByTypeAndBlocId(@Param("type") String type, @Param("idBloc") long idBloc);
+
 }

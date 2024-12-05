@@ -1,5 +1,6 @@
 package com.esprit.tic.twin.springproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,8 +32,7 @@ public class Tache implements Serializable {
     @Column(name = "typeTache")
     private TypeTache typeTache;
     @ManyToOne
-    Etudiant etudiants;
-    @OneToOne(mappedBy="tache")
-    private Etudiant etudiant;
+    @JsonIgnore
+    Etudiant etudiant;
 
 }

@@ -1,6 +1,7 @@
 package com.esprit.tic.twin.springproject.controller;
 
 import com.esprit.tic.twin.springproject.entities.Bloc;
+import com.esprit.tic.twin.springproject.entities.Universite;
 import com.esprit.tic.twin.springproject.services.IBlocService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +57,11 @@ public class BlocRestController {
     @GetMapping("/find-bloc-jpql/{universityName}")
     public List<Bloc> retrieveBlocByUniversity(@PathVariable("universityName") String universityName) {
         return blocService.retrieveBlocByUniversity(universityName);
+    }
+
+    // http://localhost:8090/projet/bloc/affecter-bloc
+    @PutMapping("/affecter-bloc/{nomBloc}")
+    public Bloc affectBloc(@PathVariable("nomBloc") String e, @RequestBody List<Long> u) {
+        return blocService.affecterChambresABloc(u,e);
     }
 }

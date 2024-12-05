@@ -1,6 +1,7 @@
 package com.esprit.tic.twin.springproject.controller;
 
 import com.esprit.tic.twin.springproject.entities.Chambre;
+import com.esprit.tic.twin.springproject.entities.TypeChambre;
 import com.esprit.tic.twin.springproject.services.IChambreService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -81,6 +82,18 @@ public class ChambreRestController {
     @GetMapping("/find-bloc-jpql")
     public List<Chambre> retrieveChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanJPQL(@RequestParam String blocName, @RequestParam long capacite) {
         return chambreService.findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanJPQL(blocName, capacite);
+    }
+
+    // http://localhost:8090/projet/chambre/find-bloc
+    @GetMapping("/find-chambres-bloc")
+    public List<Chambre> retrieveChambreByNomBloc(@RequestParam String blocName) {
+        return chambreService.getChambresParNomBloc(blocName);
+    }
+
+    // http://localhost:8090/projet/chambre/find-bloc
+    @GetMapping("/find-chambres-nb")
+    public long countChambreByTypeAndIdBloc(@RequestParam TypeChambre typeCh, @RequestParam long idBloc) {
+        return chambreService.nbChambreParTypeEtBloc(typeCh,idBloc);
     }
 
 }

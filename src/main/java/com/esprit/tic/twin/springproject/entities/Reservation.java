@@ -1,5 +1,6 @@
 package com.esprit.tic.twin.springproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Reservation implements Serializable {
     private Date anneeUniversitaire;
     @Column(name="estValide")
     private boolean estValide;
-    @ManyToMany(mappedBy="reservations")
+    @ManyToMany(mappedBy="reservations", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Etudiant> etudiants;
 }
