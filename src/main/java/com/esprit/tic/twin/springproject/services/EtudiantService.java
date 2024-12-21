@@ -77,7 +77,7 @@ public class EtudiantService implements IEtudiantService{
         return resultat;
     }
 
-    @Scheduled(cron = "0 0 9 31 */12 *")
+    //@Scheduled(cron = "0 0 9 31 12 *")
     @Override
     public void updateNouveauMontantInscriptionDesEtudiants() {
         List<Etudiant> etudiants = etudiantRepository.findAll();

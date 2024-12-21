@@ -1,11 +1,14 @@
 package com.esprit.tic.twin.springproject.services;
 
 import com.esprit.tic.twin.springproject.entities.Chambre;
+import com.esprit.tic.twin.springproject.entities.Etudiant;
+import com.esprit.tic.twin.springproject.entities.Reservation;
 import com.esprit.tic.twin.springproject.entities.TypeChambre;
 import com.esprit.tic.twin.springproject.repositories.ChambreRepository;
+import com.esprit.tic.twin.springproject.repositories.EtudiantRepository;
+import com.esprit.tic.twin.springproject.repositories.ReservationRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,6 +19,8 @@ import java.util.*;
 @AllArgsConstructor
 public class ChambreService implements IChambreService{
     ChambreRepository chambreRepository;
+    EtudiantRepository etudiantRepository;
+    ReservationRepository reservationRepository;
 
     @Override
     public List<Chambre> retrieveAllChambres() {
@@ -88,7 +93,6 @@ public class ChambreService implements IChambreService{
     }
 
     @Override
-    //@Scheduled(fixedDelay = 5000)
     public void pourcentageChambreParTypeChambre(){
         List<Chambre> chambreList = chambreRepository.findAll();
         log.info("nB Chambre total: {}", chambreList.size());
@@ -99,23 +103,51 @@ public class ChambreService implements IChambreService{
     }
 
 
-    @Scheduled(fixedDelay = 5000)
+    //@Scheduled(fixedDelay = 5000)
     @Override
     public void nbPlacesDisponiblesParChambreAnneeEnCours(){
-        Calendar calendar = Calendar.getInstance();
-        List<Chambre> chambreList = chambreRepository.findAll();
+        List<Chambre> chambreList = chambreRepository.retrieveChambreByReservationAndYear(true, LocalDate.now().getYear());
         for (Chambre chambre : chambreList) {
-            long reservations = chambre.getReservations().stream()
-                    .peek(reservation -> calendar.setTime(reservation.getAnneeUniversitaire()))
-                    .filter(reservation -> calendar.get(Calendar.YEAR)==LocalDate.now().getYear())
-                    .count();
+            long reservations = chambre.getReservations().size();
             int Capacity = switch (chambre.getTypeC()) {
                 case SIMPLE -> 1 - (int) reservations;
                 case DOUBLE -> 2- (int) reservations;
-                default -> 3- (int) reservations; // Assume 3 for other types
+                default -> 3- (int) reservations;
             };
             log.info("nb places restant dans chambre {} de type {} est: {}", chambre.getNumeroChambre(),chambre.getTypeC(), Capacity);
         }
+    }
+
+    @Override
+    public Reservation assignChambreToEtudiant(Long cin, TypeChambre typeChambre) {
+        Etudiant etudiant = etudiantRepository.findByCin(cin);
+        List<Chambre> chambreList;
+        if (!(typeChambre ==null)) {
+            chambreList = chambreRepository.findByTypeC(typeChambre);
+        } else {
+            chambreList = chambreRepository.findAll();
+        }
+
+        for (Chambre chambre : chambreList) {
+            long reservations = chambre.getReservations().stream()
+                    .filter(reservation -> reservation.getAnneeUniversitaire().getYear()==(LocalDate.now().getYear())
+                            && reservation.isEstValide()).count();
+            if (typeChambre == TypeChambre.TRIPLE && reservations < 3 || typeChambre == TypeChambre.DOUBLE && reservations < 2 || typeChambre == TypeChambre.SIMPLE && reservations < 1) {
+                Reservation reservation = new Reservation();
+                String generatedId = String.valueOf(chambre.getNumeroChambre())+ cin + LocalDate.now().getYear();
+                reservation.setIdReservation(generatedId);
+                reservation.setAnneeUniversitaire(LocalDate.now());
+                reservation.setEstValide(true);
+
+                reservationRepository.save(reservation);
+                chambre.getReservations().add(reservation);
+                chambreRepository.save(chambre);
+                etudiant.getReservations().add(reservation);
+                etudiantRepository.save(etudiant);
+                return reservation;
+            }
+        }
+        return null;
     }
 
 }

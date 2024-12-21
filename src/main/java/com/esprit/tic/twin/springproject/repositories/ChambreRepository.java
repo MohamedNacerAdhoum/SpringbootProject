@@ -6,17 +6,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ChambreRepository extends JpaRepository<Chambre, Long> {
 
     //Keyword
+    List<Chambre> findByTypeC(TypeChambre typeChambre);
 
     List<Chambre> findByBlocNomBlocAndTypeC(String nomBloc, TypeChambre type);
     List<Chambre> findByReservationsEstValide(Boolean status);
     List<Chambre> findByBlocNomBlocAndBlocCapaciteBlocGreaterThan(String nomBloc, long capacite);
     List<Chambre> findByBlocNomBloc(String nomBloc);
     long countChambreByTypeCAndBlocIdBloc(TypeChambre type, long idBloc);
+    Chambre findByNumeroChambre(Long numChambre);
+    List<Chambre> findByReservationsEstValideAndTypeC(boolean b, TypeChambre typeChambre);
 
     //JPQL
 
@@ -33,5 +37,11 @@ public interface ChambreRepository extends JpaRepository<Chambre, Long> {
 
     @Query("SELECT e FROM Chambre e WHERE e.typeC=:type AND e.bloc.idBloc=:idBloc")
     long retrieveCountByTypeAndBlocId(@Param("type") String type, @Param("idBloc") long idBloc);
+
+    @Query("SELECT e FROM Chambre e JOIN e.reservations f WHERE f.estValide=:status AND FUNCTION('YEAR', f.anneeUniversitaire) = :year")
+    List<Chambre> retrieveChambreByReservationAndYear(@Param("status") Boolean status, @Param("year") int year);
+
+    @Query("SELECT e FROM Chambre e JOIN e.reservations f WHERE f.estValide=:status AND e.typeC=:type AND FUNCTION('YEAR', f.anneeUniversitaire) = :year")
+    List<Chambre> retrieveChambreByTypeAndReservationAndYear(@Param("status") Boolean status, @Param("type") TypeChambre type, @Param("year") int year);
 
 }

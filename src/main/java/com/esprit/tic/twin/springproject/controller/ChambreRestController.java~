@@ -98,8 +98,8 @@ public class ChambreRestController {
     }
 
     @PostMapping("/affecter-chambre")
-    public Reservation affectChambre(@RequestParam Long cin,@RequestParam TypeChambre typeChambre) {
-        return chambreService.assignChambreToEtudiant(cin,typeChambre);
+    public Reservation affectChambre(@RequestParam Long idEtudiant,@RequestParam TypeChambre typeChambre) {
+        return chambreService.assignChambreToEtudiant(idEtudiant,typeChambre);
     }
 
 }

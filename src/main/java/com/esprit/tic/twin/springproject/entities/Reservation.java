@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public class Reservation implements Serializable {
     @Column(name="idReservation")
     private String idReservation;
     @Column(name="anneeUniversitaire")
-    private Date anneeUniversitaire;
+    private LocalDate anneeUniversitaire;
     @Column(name="estValide")
     private boolean estValide;
     @ManyToMany(mappedBy="reservations", cascade = CascadeType.ALL)

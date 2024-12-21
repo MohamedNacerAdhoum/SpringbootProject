@@ -1,6 +1,7 @@
 package com.esprit.tic.twin.springproject.services;
 
 import com.esprit.tic.twin.springproject.entities.Chambre;
+import com.esprit.tic.twin.springproject.entities.Reservation;
 import com.esprit.tic.twin.springproject.entities.TypeChambre;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -21,10 +22,17 @@ public interface IChambreService {
     List<Chambre> findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanKeyword(String nom, long capacite);
     List<Chambre> findChambreByBlocNomBlocAndBlocCapaciteBlocGreaterThanJPQL(String nom, long capacite);
 
+    long nbChambreParTypeEtBloc(String type, long idBloc);
+
     List<Chambre> getChambresParNomBloc(String nomBloc) ;
 
     long nbChambreParTypeEtBloc(TypeChambre type, long idBloc) ;
 
+    //@Scheduled(fixedDelay = 5000)
+    void pourcentageChambreParTypeChambre();
+
     @Scheduled(fixedDelay = 5000)
     void nbPlacesDisponiblesParChambreAnneeEnCours();
+
+    Reservation assignChambreToEtudiant(Long cin, TypeChambre typeChambre);
 }
