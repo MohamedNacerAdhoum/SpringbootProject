@@ -1,7 +1,6 @@
 spring.datasource.url=jdbc:mysql://localhost:3306/spring?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC
 spring.datasource.username=root
 spring.datasource.password=
-spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
 server.port=8090
