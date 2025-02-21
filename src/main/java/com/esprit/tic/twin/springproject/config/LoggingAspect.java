@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 @Slf4j
+/* jenkins test */
 public class LoggingAspect {
     @Before("execution(* com.esprit.tic.twin.springproject.services.*.*(..))")
     public void logMethodEntry(JoinPoint joinPoint) {
